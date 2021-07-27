@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue todo</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Todo App</h1>
+        <input type="text" v-model="inputText"  v-on:keyup='addItem'>
+        <input type="text" v-model="inputText2"  v-on:keyup.enter='addItem2'>
+        <button v-on:click="addItem3"> add</button>
+        <button v-on:click="fetchItems"> get</button>
+        <div>{{todoItems}}</div>
+        <ul>
+            <li v-for="(item,idx) in todoItems">
+                {{item}}
+                <button v-on:click="removeItem(item,idx)">삭제</button>
+            </li>
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        //instance생성
+        new Vue({
+            created: function(){
+                console.log("created");
+            },
+            mounted: function(){
+                console.log("mounted");
+            },
+            el:"#app", //element, 
+            data:{
+                inputText:'정진입니다.',
+                inputText2:'정진입니다.2',
+                todoItems : []
+            },
+            methods:{
+                addItem:function(event){
+                    console.log(event);
+                    if(event.keyCode==13){ 
+                    var value = this.inputText;
+                    localStorage.setItem(value, value);
+                    this.inputText = '';
+                    // $.ajax({
+                    //     type:'post'
+                    // });
+                    this.todoItems.push(value);
+                    alert( value);
+                    }
+                },
+                addItem2:function(event){
+                    console.log(event);
+                   
+                    var value = this.inputText2;
+                    localStorage.setItem(value, value);
+                    this.inputText = '';
+                    // $.ajax({
+                    //     type:'post'
+                    // });
+                    this.todoItems.push(value);
+                    alert( value);
+                   
+                },
+                addItem3:function(event){
+                    console.log(event);
+                   
+                    var value = this.inputText2;
+                    localStorage.setItem(value, value);
+                    this.inputText = '';
+                    // $.ajax({
+                    //     type:'post'
+                    // });
+                    this.todoItems.push(value);
+                    alert( value);
+                   
+                },
+                fetchItems:function(){
+                    //axios.get("/todos")
+                    for(var i=0; i<localStorage.length; i++){
+                        var value = localStorage.key(i);
+                        console.log(value);
+                        this.todoItems.push(value);
+                    }
+                    console.log(this.todoItems);
+                },
+                removeItem:function(item,idx){
+                    console.log(item + ":" + idx + ":" + "remove");
+                    this.todoItems.splice(idx,1);
+                    localStorage.removeItem(item);
+                }
+            }
+        });
+
+    </script>
+       
+        
+</body>
+</html>
